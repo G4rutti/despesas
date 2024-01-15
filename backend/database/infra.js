@@ -53,11 +53,32 @@ async function readGastosDasDespesas (nomeDaDespesa){
     return documents[0]["despesas"]
 }
 
+// UPDATE
+async function updateNomeDaDespesa(nomeAntigo, nomeNovo){
+    const filter = {nome: nomeAntigo}
+    const updatedDocument = {
+        $set: {
+            nome: nomeNovo
+        }
+    }
+    const result = await collection.updateOne(filter, updatedDocument)
+    return result
+}
 
-module.exports = { database, readAllDespesas,  createDespesa, createGasto, readGastosDasDespesas}
+async function updateGastoDaDespesa(nomeDaDespesa, nomeGasto, novoGasto){
+    const filter = {nome: nomeDaDespesa}
+    const result = await collection.find(filter).toArray()
+    const findThat = await result
+    console.log(findThat)
+}
+
+
+module.exports = { database, readAllDespesas,  createDespesa, createGasto, readGastosDasDespesas, updateNomeDaDespesa, updateGastoDaDespesa}
 
 exports.database = database
 exports.readAllDespesas = readAllDespesas
 exports.createDespesa = createDespesa
 exports.createGasto = createGasto
 exports.readGastosDasDespesas = readGastosDasDespesas
+exports.updateNomeDaDespesa = updateNomeDaDespesa
+exports.updateGastoDaDespesa = updateGastoDaDespesa
